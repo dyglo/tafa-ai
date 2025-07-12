@@ -23,7 +23,8 @@ export const myProvider = isTestEnvironment
     })
   : customProvider({
       languageModels: {
-        'chat-model': xai('grok-2-vision-1212'),
+        // Switch primary chat model to Grok-4 for enhanced capabilities and web search tool usage.
+        'chat-model': xai('grok-4'),
         'chat-model-reasoning': wrapLanguageModel({
           model: xai('grok-3-mini-beta'),
           middleware: extractReasoningMiddleware({ tagName: 'think' }),

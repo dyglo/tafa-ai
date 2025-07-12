@@ -9,8 +9,8 @@ export interface ChatModel {
 export const chatModels: Array<ChatModel> = [
   {
     id: 'chat-model',
-    name: 'Chat model',
-    description: 'Primary model for all-purpose chat',
+    name: 'Grok-4',
+    description: 'Advanced model with real-time web search capabilities',
   },
   {
     id: 'chat-model-reasoning',

@@ -9,6 +9,7 @@ import { Markdown } from './markdown';
 import { MessageActions } from './message-actions';
 import { PreviewAttachment } from './preview-attachment';
 import { Weather } from './weather';
+import { SourcePills } from './source-pills';
 import equal from 'fast-deep-equal';
 import { cn, sanitizeText } from '@/lib/utils';
 import { Button } from './ui/button';
@@ -182,6 +183,35 @@ const PurePreviewMessage = ({
                     <div key={toolCallId}>
                       <Weather weatherAtLocation={output} />
                     </div>
+                  );
+                }
+              }
+
+              if (type === 'tool-webSearch') {
+                const { toolCallId, state } = part;
+
+                if (state === 'input-available') {
+                  return (
+                    <div key={toolCallId} className="skeleton h-6 w-24" />
+                  );
+                }
+
+                if (state === 'output-available') {
+                  const { output } = part;
+
+                  if ('error' in output) {
+                    return (
+                      <div
+                        key={toolCallId}
+                        className="text-red-500 p-2 border rounded"
+                      >
+                        Error: {String(output.error)}
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <SourcePills key={toolCallId} sources={output.results} />
                   );
                 }
               }

@@ -50,6 +50,20 @@
       "when": 1746118166211,
       "tag": "0006_marvelous_frog_thor",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1752268154332,
+      "tag": "0007_cold_agent_brand",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1752268418950,
+      "tag": "0008_sweet_solo",
+      "breakpoints": true
     }
   ]
 }

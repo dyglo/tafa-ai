@@ -165,6 +165,12 @@ export function Chat({
             />
           )}
         </form>
+
+        {/* Disclaimer notice */}
+        <p className="text-xs text-muted-foreground text-center mt-1 mb-4">
+          Tafa AI can make mistakes, please check for more info
+        </p>
+
       </div>
 
       <Artifact

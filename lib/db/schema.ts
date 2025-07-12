@@ -9,6 +9,8 @@ import {
   primaryKey,
   foreignKey,
   boolean,
+  serial,
+  integer,
 } from 'drizzle-orm/pg-core';
 
 export const user = pgTable('User', {
@@ -168,3 +170,14 @@ export const stream = pgTable(
 );
 
 export type Stream = InferSelectModel<typeof stream>;
+
+export const usageLog = pgTable('usage_log', {
+  id: serial('id').primaryKey(),
+  userId: uuid('user_id').notNull().references(() => user.id),
+  model: text('model').notNull(),
+  requestType: text('request_type').notNull(),
+  promptTokens: integer('prompt_tokens').notNull(),
+  completionTokens: integer('completion_tokens').notNull(),
+  totalTokens: integer('total_tokens').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: false }).defaultNow().notNull(),
+});

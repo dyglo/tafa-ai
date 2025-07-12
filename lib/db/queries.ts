@@ -33,6 +33,8 @@ import { generateUUID } from '../utils';
 import { generateHashedPassword } from './utils';
 import type { VisibilityType } from '@/components/visibility-selector';
 import { ChatSDKError } from '../errors';
+import { usageLog } from './schema';
+import { sql } from 'drizzle-orm';
 
 // Optionally, if not using email/pass login, you can
 // use the Drizzle adapter for Auth.js / NextAuth
@@ -535,4 +537,37 @@ export async function getStreamIdsByChatId({ chatId }: { chatId: string }) {
       'Failed to get stream ids by chat id',
     );
   }
+}
+
+export async function getUsageCountByUserId({ id, differenceInHours }: { id: string; differenceInHours: number }) {
+  return db
+    .select({ count: sql`count(*)`.mapWith(Number) })
+    .from(usageLog)
+    .where(and(eq(usageLog.userId, id), gte(usageLog.createdAt, sql`now() - interval '${differenceInHours} hours'`)))
+    .then((rows) => rows[0]?.count ?? 0);
+}
+
+export async function saveUsageLog({
+  userId,
+  model,
+  requestType,
+  promptTokens,
+  completionTokens,
+  totalTokens,
+}: {
+  userId: string;
+  model: string;
+  requestType: string;
+  promptTokens: number;
+  completionTokens: number;
+  totalTokens: number;
+}) {
+  await db.insert(usageLog).values({
+    userId,
+    model,
+    requestType,
+    promptTokens,
+    completionTokens,
+    totalTokens,
+  });
 }
